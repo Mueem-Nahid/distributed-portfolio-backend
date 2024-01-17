@@ -1,7 +1,7 @@
 {
-  "name": "university-management-auth-service",
+  "name": "portfolio-backend",
   "version": "1.0.0",
-  "description": "This is the authentication service for university management project",
+  "description": "This is the backend for portfolio.",
   "main": "src/server.ts",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
