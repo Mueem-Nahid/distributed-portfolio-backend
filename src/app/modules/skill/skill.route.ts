@@ -5,6 +5,8 @@ import { SkillValidation } from './skill.validation';
 
 const router: Router = express.Router();
 
+router.post('/', SkillController.createSkill);
+
 router.get('/:id', SkillController.getSingleSkill);
 
 router.patch(

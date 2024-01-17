@@ -8,6 +8,19 @@ import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
 import { SkillService } from './skill.service';
 
+const createSkill = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const skill = req.body;
+    const result = await SkillService.createSkill(skill);
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: 'Skill created successfully !',
+      data: result,
+    });
+  }
+);
+
 const getAllSkill = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const paginationOptions: IPaginationOptions = pick(
@@ -61,6 +74,7 @@ const deleteSkill = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const SkillController = {
+  createSkill,
   getAllSkill,
   getSingleSkill,
   updateSkill,

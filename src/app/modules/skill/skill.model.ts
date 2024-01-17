@@ -3,11 +3,6 @@ import { ISkill, SkillModel } from './skill.interface';
 
 export const skillSchema = new Schema(
   {
-    id: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     name: {
       type: String,
       required: true,

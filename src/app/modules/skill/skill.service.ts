@@ -9,6 +9,12 @@ import httpStatus from 'http-status';
 import { ISkill } from './skill.interface';
 import { Skill } from './skill.model';
 
+const createSkill = async (data: ISkill): Promise<ISkill | null> => {
+  const createdSkill = Skill.create(data);
+  if (!createdSkill) throw new ApiError(400, 'Failed to create skill.');
+  return createdSkill;
+};
+
 const getAllSkills = async (
   paginationOption: IPaginationOptions
 ): Promise<IGenericResponsePagination<ISkill[]>> => {
@@ -55,6 +61,7 @@ const deleteSkill = async (id: string): Promise<ISkill | null> => {
 };
 
 export const SkillService = {
+  createSkill,
   getAllSkills,
   getSingleSkill,
   updateSkill,
