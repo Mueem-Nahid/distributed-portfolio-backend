@@ -9,6 +9,12 @@ import httpStatus from 'http-status';
 import { IProject } from './project.interface';
 import { Project } from './project.model';
 
+const createProject = async (data: IProject): Promise<IProject | null> => {
+  const createdProject = Project.create(data);
+  if (!createdProject) throw new ApiError(400, 'Failed to create project.');
+  return createdProject;
+};
+
 const getAllProjects = async (
   paginationOption: IPaginationOptions
 ): Promise<IGenericResponsePagination<IProject[]>> => {
@@ -55,6 +61,7 @@ const deleteProject = async (id: string): Promise<IProject | null> => {
 };
 
 export const ProjectService = {
+  createProject,
   getAllProjects,
   getSingleProject,
   updateProject,

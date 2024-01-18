@@ -8,6 +8,19 @@ import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constants/pagination';
 import { ProjectService } from './project.service';
 
+const createProject = catchAsync(
+  async (req: Request, res: Response): Promise<void> => {
+    const project = req.body;
+    const result = await ProjectService.createProject(project);
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: 'Project created successfully !',
+      data: result,
+    });
+  }
+);
+
 const getAllProject = catchAsync(
   async (req: Request, res: Response): Promise<void> => {
     const paginationOptions: IPaginationOptions = pick(
@@ -61,6 +74,7 @@ const deleteProject = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const ProjectController = {
+  createProject,
   getAllProject,
   getSingleProject,
   updateProject,

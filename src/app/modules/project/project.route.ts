@@ -5,6 +5,12 @@ import { ProjectValidation } from './project.validation';
 
 const router: Router = express.Router();
 
+router.post(
+  '/',
+  validateRequest(ProjectValidation.addProjectZodSchema),
+  ProjectController.createProject
+);
+
 router.get('/:id', ProjectController.getSingleProject);
 
 router.patch(
