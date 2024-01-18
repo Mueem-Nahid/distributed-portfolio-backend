@@ -49,11 +49,11 @@ const updateProject = async (
   id: string,
   payload: Partial<IProject>
 ): Promise<IProject | null> => {
-  const isExist = await Project.findOne({ id });
+  const isExist = await Project.findOne({ _id: id });
 
   if (!isExist) throw new ApiError(httpStatus.NOT_FOUND, 'Project not found.');
 
-  return Project.findOneAndUpdate({ id }, payload, { new: true });
+  return Project.findOneAndUpdate({ _id: id }, payload, { new: true });
 };
 
 const deleteProject = async (id: string): Promise<IProject | null> => {
