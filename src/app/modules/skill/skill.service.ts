@@ -49,11 +49,11 @@ const updateSkill = async (
   id: string,
   payload: Partial<ISkill>
 ): Promise<ISkill | null> => {
-  const isExist = await Skill.findOne({ id });
+  const isExist = await Skill.findOne({ _id: id });
 
   if (!isExist) throw new ApiError(httpStatus.NOT_FOUND, 'Skill not found.');
 
-  return Skill.findOneAndUpdate({ id }, payload, { new: true });
+  return Skill.findOneAndUpdate({ _id: id }, payload, { new: true });
 };
 
 const deleteSkill = async (id: string): Promise<ISkill | null> => {
