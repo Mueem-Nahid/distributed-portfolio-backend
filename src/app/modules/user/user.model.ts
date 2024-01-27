@@ -1,5 +1,6 @@
 import { model, Schema } from 'mongoose';
-import { IUser, USerModel } from './user.interface';
+import { IUser, IUserMethods, UserModel } from './user.interface';
+import { hashPassword } from '../../../helpers/hashPassword';
 
 const educationSchema = new Schema({
   institutionName: {
@@ -18,7 +19,11 @@ const educationSchema = new Schema({
   },
 });
 
-export const userSchema = new Schema(
+export const userSchema = new Schema<
+  IUser,
+  Record<string, never>,
+  IUserMethods
+>(
   {
     name: {
       type: String,
@@ -64,4 +69,25 @@ export const userSchema = new Schema(
   }
 );
 
-export const User = model<IUser, USerModel>('User', userSchema);
+// instance method
+userSchema.methods.isUserExist = async function (
+  id: string
+): Promise<Pick<IUser, 'email' | 'password'> | null> {
+  return User.findOne({ id }, { email: 1, password: 1 }).lean();
+};
+
+userSchema.methods.isPasswordMatched = async function (
+  enteredPassword: string,
+  savedPassword: string
+): Promise<boolean> {
+  return hashPassword.decryptPassword(enteredPassword, savedPassword);
+};
+
+// hash password using pre hook middleware (fat model thin controller)
+// User.create() / user.save()
+userSchema.pre('save', async function (next) {
+  this.password = await hashPassword.encryptPassword(this.password);
+  next();
+});
+
+export const User = model<IUser, UserModel>('User', userSchema);
